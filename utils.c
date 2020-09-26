@@ -1,6 +1,7 @@
 #include <MK64F12.h>
 #include "utils.h"
 
+
 /*----------------------------------------------------------------------------
   Function that initializes LEDs
  *----------------------------------------------------------------------------*/
@@ -16,6 +17,27 @@ void LED_Initialize(void) {
 
   PTE->PDOR = 1 << 26;            /* switch Blue LED off  */
   PTE->PDDR = 1 << 26;            /* enable PTE26 as Output */
+}
+
+/*-------------------------------------------------------
+  Function that initializes SW2 and SW3 push button switches
+ *---------------------------------------------------------*/
+void bttn_Initialize(void) {
+	
+	NVIC_EnableIRQ(PORTC_IRQn);															/* Enable */
+	NVIC_EnableIRQ(PORTA_IRQn);															/* Enable */
+
+	SIM->SCGC5    |= (1 << 9) | (1 << 11);     							/* Enable Clock to Port A & C */
+	PORTC->PCR[6] &= ~PORT_PCR_MUX_MASK;      						 	/* Configure Switch SW2 */
+	PORTA->PCR[4] &= ~PORT_PCR_MUX_MASK;       							/* Configure Switch SW3 */
+	
+	PORTC->PCR[6] = 0xA0100; 																/* Connect Switch as interrupt */
+	PORTA->PCR[4] = 0xA0100; 																/* Connect Switch as interrupt */
+	
+	PTC->PDDR &= ~GPIO_PDDR_PDD(1<<4);      							 	/* Assign switch to input */
+	PTA->PDDR &= ~GPIO_PDDR_PDD(1<<4);     								  /* Assign switch to input */
+	
+	
 }
 
 /*----------------------------------------------------------------------------
@@ -106,9 +128,4 @@ void LED_Off (void) {
 	
 	// Restore interrupts
 	__set_PRIMASK(m);
-}
-
-void delay(void){
-	int j;
-	for(j=0; j<1000000; j++);
 }
