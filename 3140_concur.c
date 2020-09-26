@@ -69,7 +69,7 @@ unsigned int * process_stack_init (void (*f)(void), int n)
   }
   
 	sp[n-1] = 0x01000000; // xPSR
-  sp[n-2] = (unsigned int) f; // PC
+	sp[n-2] = (unsigned int) f; // PC
 	sp[n-3] = (unsigned int) process_terminated; // LR
 	sp[n-9] = 0xFFFFFFF9; // EXC_RETURN value, returns to thread mode
 	sp[n-18] = 0x3; // Enable scheduling timer and interrupt
