@@ -41,7 +41,7 @@ typedef struct process_state process_t;
 	 cursp will be NULL when first starting the scheduler, and when a process terminates
 	 Return the stack pointer for the new process to run, or NULL to exit the scheduler.
 */
-unsigned int * process_select (unsigned int * cursp);
+extern unsigned int * process_select (unsigned int * cursp);
 
 /* the currently running process. current_process must be NULL if no process is running,
     otherwise it must point to the process_t of the currently running process
@@ -69,7 +69,7 @@ You may use the following functions that we have provided
    
    Implemented in 3140.s
 */
-void process_blocked (void);
+extern void process_blocked (void);
 
 /*
   This function is called by user code indirectly when the process
@@ -80,7 +80,7 @@ void process_blocked (void);
   Implemented in 3140.s
   Used in 3140_concur.c
 */
-void process_terminated (void);
+extern void process_terminated (void);
 
 /* This function can ONLY BE CALLED if interrupts are disabled. It
    does not modify interrupt flags.
@@ -110,7 +110,7 @@ void process_stack_free (unsigned int *sp, int n);
 	
 	Implemented in 3140.s
 */
-void process_begin (void);
+extern void process_begin (void);
 
 
 #endif
